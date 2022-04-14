@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+    {% csrf_token %}
+    <h1>Д-р {{ doc.first_name }} {{ doc.last_name }}</h1>
+    <h3>{{ date|date:'d F Y' }}</h3>
+    {#    {{ time }}#}
+    {% for x in slots %}
+        <div class="col m-3 align-self-center">
+
+            {% if x.time not in occupied_slots and x > time %}
+
+                <a href="{% url 'create event' %}?doc={{ doc.pk }}&slot={{ x }}">{{ x|date:'H:i' }}</a>
+
+
+            {% else %}
+                {{ x|date:'H:i' }}
+            {% endif %}
+        </div>
+
+    {% endfor %}
+    <a href="{% url 'doctor selected' doc.pk %}" class="btn btn-secondary mt-3">Cancel</a>
+    {% if is_staff %}
+        <a href="{% url 'doctor schedule' %}?doc={{ doc.pk }}&slot={{ date.year }}-{{ date.month }}-{{ date.day }}"
+           class="btn btn-primary mt-3">Generate Schedule</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block pagecontent %}
+    <form action="{% url 'edit profile' %}" method="post" enctype="multipart/form-data">
+
+
+        {% csrf_token %}
+        {{ form|crispy }}
+        {#                Add next for visualizing profile form#}
+        {#                {{ profile_form|crispy }}#}
+        <div>
+            <button class="btn btn-primary mt-3" type="submit">Save</button>
+            <a href="{% url 'show profile' %}" class="btn btn-secondary mt-3">Cancel</a>
+        </div>
+
+
+    </form>
+{% endblock %}

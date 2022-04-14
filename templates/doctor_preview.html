@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+
+    <div class="container">
+        {% csrf_token %}
+        <div class="row">
+            {% for doc in object_list %}
+                <table class="table center">
+                    <tr>
+                        <td><img src="{{ doc.picture.url }}" class="rounded-circle" width="100" alt=""></td>
+                        <td class="align-middle">Д-р {{ doc.first_name }} {{ doc.last_name }}</td>
+                        <td class="align-middle"><a href="{% url 'doctor selected' doc.pk %}" class="btn btn-secondary">Select</a></td>
+                        {% if request.user.is_staff %}
+                            <td class="align-middle"><a href="{% url 'update doctor' doc.pk %}" class="btn btn-primary">Edit</a></td>
+                        {% endif %}
+                    </tr>
+                </table>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+    <div class="content m-5">
+        <h5 style="text-align:center">Добре дошли в системата за запазване на час в Медицински Център Д-р Божидар
+            Славчев.</h5>
+        {% if not user.is_authenticated %}
+            <h5 style="text-align:center">За да запазите час моля влезте в системата или се регистрирайте.</h5>
+        {% endif %}
+
+        {% if page_info %}
+            {% for info in page_info %}
+                {% if info.view_status %}
+                    <div class="content mt-5">
+                        {% if info.title %}
+                            <h3 class="text-capitalize" style="text-align:center">{{ info.title }}</h3>
+                        {% endif %}
+                        {% if info.text %}
+                            <h5 style="text-align:center">{{ info.text|linebreaks }}</h5>
+                        {% endif %}
+                        {% if info.image %}
+                            <img src="{{ info.image.url }}" class="rounded mx-auto d-block" alt="...">
+                            </div>
+                        {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <div class="content mt-5">
+            <h3 style="text-align:center">Нашите специалисти:</h3>
+        </div>
+        <div class="container m-5">
+            <div class="row">
+                {% for doc in object_list %}
+                    <div class="col">
+                        <div class="row">
+                            <div class="col"><img src="{{ doc.picture.url }}" class="rounded-circle" width="150" alt="">
+                            </div>
+                            <div class="row">Д-р {{ doc.first_name }} {{ doc.last_name }}</div>
+                            <div class="row">{{ doc.specialty }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

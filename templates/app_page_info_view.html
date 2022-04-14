@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+{#    {% for info in object_list %}#}
+{#        {{ info }}#}
+
+          <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Наименование</th>
+                <th scope="col">Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for info in object_list %}
+                <tr>
+
+                    <td>{{ info }}</td>
+                    <td><a href="{% url 'page info update' info.pk %}" class="btn btn-primary">Edit</a><a
+                            href="{% url 'page info delete' info.pk %}" class="btn btn-danger ms-2">Delete</a></td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+<a href="{% url 'page info create' %}" class="btn btn-secondary">Create</a>
+{% endblock %}

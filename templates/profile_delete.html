@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block pagecontent %}
+    <form action="{% url 'delete profile' %}" method="post" enctype="multipart/form-data">
+
+        <h1>Are you sure?</h1>
+        {% csrf_token %}
+
+        <div>
+            <button class="btn btn-danger mt-3" type="submit">Delete</button>
+        </div>
+
+
+    </form>
+{% endblock %}

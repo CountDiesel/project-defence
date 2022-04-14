@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+    {% csrf_token %}
+    <h1>Д-р {{ doc.first_name }} {{ doc.last_name }}</h1>
+
+    <h3>
+        {% if new_date > date %}
+{#        {% if new_date.month > date.month %}#}
+            <a href="{% url 'doctor selected' doc.pk %}?prev={{ new_date }}"><<</a>
+        {% endif %}
+{#        {{ month_name }} {{ new_date.year }}#}
+        {{ new_date|date:'F Y' }}
+        <a href="{% url 'doctor selected' doc.pk %}?next={{ new_date }}">>></a>
+    </h3>
+    <div class="row align-items-center">
+        <div class="col m-3 align-self-center">
+            <h5>Mon</h5>
+        </div>
+        <div class="col m-3 align-self-center">
+            <h5>Tue</h5>
+        </div>
+        <div class="col m-3 align-self-center">
+            <h5>Wed</h5>
+        </div>
+        <div class="col m-3 align-self-center">
+            <h5>Thu</h5>
+        </div>
+        <div class="col m-3 align-self-center">
+            <h5>Fri</h5>
+        </div>
+        <div class="col m-3 align-self-center">
+            <h5>Sat</h5>
+        </div>
+        <div class="col m-3 align-self-center">
+            <h5>Sun</h5>
+        </div>
+    </div>
+    {% for week in month %}
+        <div class="row align-items-center">
+            {% for day, w_day in week %}
+                <div class="col m-3 align-self-center">
+                    {% if day != 0 %}
+                        {% if w_day in days and day >= date.day %}
+                            <a href="{% url 'selected day' %}?doc_id={{ doc.pk }}&day={{ new_date.year }}-{{ new_date.month }}-{{ day }}">{{ day }}</a>
+                        {% elif w_day in days and new_date > date %}
+                            <a href="{% url 'selected day' %}?doc_id={{ doc.pk }}&day={{ new_date.year }}-{{ new_date.month }}-{{ day }}">{{ day }}</a>
+                        {% else %}
+                            {{ day }}
+                        {% endif %}
+                    {% else %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+{% endblock %}

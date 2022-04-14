@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block pagecontent %}
+    <form action="{% url 'create event' %}?doc={{ doc.pk }}&slot={{ slot }}" method="post"
+          enctype="multipart/form-data">
+
+
+        {% csrf_token %}
+        <div>
+            {% if request.user.is_staff %}
+                {{ form|crispy }}
+            {% endif %}
+        </div>
+        Сигурни ли сте, че искате да запазите час за Д-р {{ doc }} на {{ slot|date:'d F Y' }} в {{ slot|date:'H:i' }}
+        часа?
+
+
+        <div>
+            <button class="btn btn-primary mt-3" type="submit">Confirm</button>
+            {#            <a href="{% url 'show profile' %}" class="btn btn-secondary mt-3">Cancel</a>#}
+            <a href="{% url 'selected day' %}?doc_id={{ doc.pk }}&day={{ slot.year }}-{{ slot.month }}-{{ slot.day }}"
+               class="btn btn-secondary mt-3">Cancel</a>
+        </div>
+
+
+    </form>
+{% endblock %}

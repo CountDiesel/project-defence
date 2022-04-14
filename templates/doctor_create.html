@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block pagecontent %}
+    <form action="{% url 'create doctor' %}" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div>
+            <button class="btn btn-primary mt-3" type="submit">Create Doctor</button>
+        </div>
+    </form>
+{% endblock %}

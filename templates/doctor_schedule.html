@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+    <h3>{{ date|date:'d M Y' }}</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Час</th>
+            <th scope="col">Име</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Бележки</th>
+            <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for date, patient_id in slots %}
+            <tr>
+
+                {% if patient_id != "None" %}
+                    <td> {{ date|date:'H:i' }} </td>
+                    <td> {{ patient_id.profile.first_name }} </td>
+                    <td> {{ patient_id.profile.last_name }} </td>
+                    <td> {{ patient_id.profile.telephone_number }} </td>
+                    {% for cal in events %}
+                        {#                        {{ cal }}#}
+                        {% if date == cal.date %}
+                            <td> {{ cal.description }} </td>
+                            <td><a href="{% url 'edit event' cal.pk %}" class="btn btn-primary">Edit</a><a href="{% url 'delete event' cal.pk %}" class="btn btn-danger ms-2">Delete</a></td>
+                        {% endif %}
+                    {% endfor %}
+
+                {% else %}
+                    <td><a href="{% url 'create event' %}?doc={{ doc.pk }}&slot={{ date }}">{{ date|date:'H:i' }}</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

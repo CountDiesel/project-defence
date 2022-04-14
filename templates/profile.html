@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block pagecontent %}
+    <h1>Username: {{ user }}</h1>
+    {% if profile %}
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col">
+                    {% if profile.picture %}
+                        <img src="{{ profile.picture.url }} " width=300 alt="">
+                    {% else %}
+                        <img src="{% static '/user-profile-default.png' %} " width=300 alt="">
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h1>First Name: {{ profile.first_name }}</h1>
+                    <h1>Last Name: {{ profile.last_name }}</h1>
+                    <h1>Telephone number: {{ profile.telephone_number }}</h1>
+                    <div class="actionBtn">
+                        <a href="{% url 'edit profile' %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'delete profile' %}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="content mt-5">
+            {% if events %}
+                <h1>Вашите записани часове:</h1>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Час</th>
+                        <th scope="col">Име на лекар</th>
+                        <th scope="col">Действие</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.date|date:'d F Y' }}</td>
+                            <td>{{ event.date|date:'H:i' }}</td>
+                            <td>Д-р {{ event.doctor_id }}</td>
+                            <td><a href="{% url 'delete event' event.pk %}" class="btn btn-danger">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="actionBtn">
+            <a href="{% url 'create profile' %}" class="btn btn-primary">Create Profile</a>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

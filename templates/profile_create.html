@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block pagecontent %}
+    <div class="context m-3">
+    <h3>Моля създайте потребителски профил.</h3>
+    </div>
+    <form action="{% url 'create profile' %}"  method="post" enctype="multipart/form-data">
+
+
+        {% csrf_token %}
+        {{ form|crispy }}
+        {#                Add next for visualizing profile form#}
+        {#                {{ profile_form|crispy }}#}
+        <div>
+            <button class="btn btn-primary mt-3" type="submit">Create Profile</button>
+        </div>
+
+
+    </form>
+{% endblock %}

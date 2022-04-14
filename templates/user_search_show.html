@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block pagecontent %}
+    {#    <form method="post" enctype="multipart/form-data">#}
+    {#        {% csrf_token %}#}
+    {#        {{ form }}#}
+    {#        <button class="btn btn-primary" type="submit">Search</button>#}
+    {#    </form>#}
+    <form method='GET'>
+        <input type='text' name='srch' value='{{ request.GET.srch }}'>
+        <input class="button" type='submit' value="Search">
+    </form>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Потребител</th>
+                <th scope="col">Действие</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for user in object_list %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <a href="{% url 'edit user' user.pk %}" class="btn btn-secondary">Edit</a>
+                        <a href="{% url 'delete user' user.pk %}" class="btn btn-danger">Delete</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

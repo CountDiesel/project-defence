@@ -6,7 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views import generic as views
 from schedule_app.web.forms import UserRegistrationForm, UserRegistrationStaffForm, UserRegistrationSuperuserForm, \
-    UserUpdateSuperuserForm, UserUpdateStaffForm
+    UserUpdateSuperuserForm, UserUpdateStaffForm, UserSearchForm
 
 UserModel = get_user_model()
 
@@ -159,3 +159,27 @@ class UserDeleteView(LoginRequiredMixin, views.DeleteView):
             if obj.is_superuser:
                 raise PermissionDenied('You do not have permissions to do that!')
         return super().dispatch(request, *args, **kwargs)
+
+
+class SearchShowUsersView(LoginRequiredMixin, views.ListView):
+    model = UserModel
+    template_name = 'user_search_show.html'
+    success_url = reverse_lazy('search and show users')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser and not request.user.is_staff:
+            raise PermissionDenied('You do not have permissions to do that!')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_string = self.request.GET.get('srch')
+        if search_string:
+            queryset = queryset.filter(email__icontains=search_string)
+        user = self.request.user
+        if user.is_superuser:
+            return queryset
+        elif user.is_staff:
+            return queryset.filter(is_superuser=False)
+        else:
+            return queryset.filter(is_superuser=False, is_staff=False)

@@ -81,3 +81,9 @@ class DoctorSelectForm(forms.Form):
     date = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}),
     )
+
+
+class UserSearchForm(forms.Form):
+    search_string = forms.CharField(
+        required=False
+    )

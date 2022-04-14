@@ -4,7 +4,7 @@ from schedule_app.web.app_page_info_views import CreatePageInfoView, EditPageInf
 from schedule_app.web.event_views import CreateCalendarEventView, DeleteEventView, EditEventView
 from schedule_app.web.auth_views import UserLoginView, UserLogoutView, UserRegisterView, UserPasswordChangeView, \
     UserPasswordResetView, UserEditView, ShowUsersView, UserDeleteView, UserPasswordResetDoneView, \
-    UserPasswordResetConfirmView, UserPasswordResetCompleteView
+    UserPasswordResetConfirmView, UserPasswordResetCompleteView, SearchShowUsersView
 from schedule_app.web.doctor_views import DoctorPreviewView, selected_doctor, DoctorDayView, DoctorScheduleView, CreateDoctorView, \
     EditDoctorView, DoctorSelectView, doctor_select_day
 from schedule_app.web.profile_views import EditProfileView, CreateProfileView, DeleteProfileView, ShowProfileView
@@ -28,6 +28,7 @@ urlpatterns = (
     path('update/<int:pk>/', UserEditView.as_view(), name='edit user'),
     path('delete/<int:pk>/', UserDeleteView.as_view(), name='delete user'),
     path('show-users/', ShowUsersView.as_view(), name='show users'),
+    path('show-users-search/', SearchShowUsersView.as_view(), name='search and show users'),
 
     path('event/create/', CreateCalendarEventView.as_view(), name='create event'),
     path('event/delete/<int:pk>/', DeleteEventView.as_view(), name='delete event'),
